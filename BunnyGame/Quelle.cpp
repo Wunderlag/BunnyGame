@@ -34,14 +34,17 @@ string randName(void);
 int randCrazyness(void);
 
 // Create bunny
-void createBunny(void);
+void createBunny(int);
 
 int main()
 {
-	
-
 	// creating a bunny
-	createBunny();
+	createBunny(5);
+
+
+
+
+
 
 	// Test output
 	int n{};
@@ -51,8 +54,8 @@ int main()
 		cout << bunnyNumber[n].name << "\n" << bunnyNumber[n].sex << "\n" << bunnyNumber[n].colour << "\n" << bunnyNumber[n].age << "\n" << bunnyNumber[n].crazy << "\n" << endl;
 	}
 	
-	system("PAUSE");
-
+		system("PAUSE");
+	
 	return 0;
 }
 
@@ -107,11 +110,11 @@ int randCrazyness()
 }
 
 // Create Bunny
-void createBunny()
+void createBunny(int max)
 {
 	int n{};
 
-	for (n = 0; n < 5; n++)
+	for (n = 0; n < max; n++)
 	{
 		bunnyNumber[n].sex = randSex();
 		bunnyNumber[n].colour = randColour();
