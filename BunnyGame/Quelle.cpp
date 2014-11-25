@@ -11,8 +11,18 @@
 
 using namespace std;
 
+// struct for bunny-data
+struct bunny
+{
+	char sex{};
+	string colour{};
+	int age{};
+	string name{};
+	int crazy{};
+} bunnyNumber[5]; // initialize without fixed array size??
+
 // Function to determine sex
-char randsex(void);
+char randSex(void);
 
 // Function to determine colour
 string randColour(void);
@@ -24,23 +34,26 @@ string randName(void);
 int randCrazyness(void);
 
 // Create bunny
-
+void createBunny(void);
 
 int main()
 {
-	struct bunny
-	{
-		char sex{};
-		char colour{};
-		int age{};
-		string name{};
-		int crazy{};
-	};
+	
 
 	// creating a bunny
-	int bunnyNumber{};
+	createBunny();
 
+	// Test output
+	int n{};
 
+	for (n = 0; n  < 5; n++)
+	{
+		cout << bunnyNumber[n].name << "\n" << bunnyNumber[n].sex << "\n" << bunnyNumber[n].colour << "\n" << bunnyNumber[n].age << "\n" << bunnyNumber[n].crazy << "\n" << endl;
+	}
+	
+	system("PAUSE");
+
+	return 0;
 }
 
 // Function to determine sex
@@ -81,7 +94,7 @@ string randName(void)
 }
 
 // Funktion to determine crazyness
-int randCrazyness(void)
+int randCrazyness()
 {
 	random_device generator;
 	uniform_int_distribution<int> distribution(1, 100);
@@ -91,4 +104,20 @@ int randCrazyness(void)
 		return 1;
 	else 
 		return 0;
+}
+
+// Create Bunny
+void createBunny()
+{
+	int n{};
+
+	for (n = 0; n < 5; n++)
+	{
+		bunnyNumber[n].sex = randSex();
+		bunnyNumber[n].colour = randColour();
+		bunnyNumber[n].age = 1;
+		bunnyNumber[n].name = randName();
+		bunnyNumber[n].crazy = randCrazyness();
+	}
+
 }
