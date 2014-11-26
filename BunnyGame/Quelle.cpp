@@ -19,27 +19,47 @@ struct bunny
 	int age{};
 	string name{};
 	int crazy{};
-} bunnyNumber[5]; // initialize without fixed array size??
+	struct bunny* next;
+};
+
+bunny *listStart{};
 
 // Function to determine sex
 char randSex(void);
-
+// Funtion to determine age of starting bunnies
+int randAge(void);
 // Function to determine colour
 string randColour(void);
-
 // Function to determine name
-string randName(void);
-
+string randName(char);
 // Funktion to determine crazyness
 int randCrazyness(void);
-
 // Create bunny
-void createBunny(int);
+void createBunny(int, char);
+// Add a Node to Bunny
+void addNode(bunny*);
+// output for the Bunny list
+void listOutput(void);
+// breeding mechanism
+int bunnyCounting(void);
+// lets bunnies age one year each cycle, kills them when older than 10yrs
+void bunnyAging(void);
 
 int main()
 {
-	// creating a bunny
-	createBunny(5);
+	// creating first bunnies
+	createBunny(5, 'y'); // first parameter determines how many bunnies will be created, 2nd parameter only on gamestart 'y', else 'n'
+
+	// bunny breeding
+	int gameOver{ 1 };
+	while (gameOver >= 1)
+	{
+		bunnyAging();
+		createBunny(bunnyCounting(), 'n');
+		listOutput();
+		system("PAUSE");
+
+	}
 
 
 
@@ -47,14 +67,11 @@ int main()
 
 
 	// Test output
-	int n{};
+	listOutput();
 
-	for (n = 0; n  < 5; n++)
-	{
-		cout << bunnyNumber[n].name << "\n" << bunnyNumber[n].sex << "\n" << bunnyNumber[n].colour << "\n" << bunnyNumber[n].age << "\n" << bunnyNumber[n].crazy << "\n" << endl;
-	}
-	
-		system("PAUSE");
+	// cout << "\nErgebnis:\n" << bunnyCounting() << endl;
+
+	system("PAUSE");
 	
 	return 0;
 }
@@ -72,6 +89,16 @@ char randSex()
 		return 'f';
 }
 
+// Funtion to determine age of starting bunnies
+int randAge()
+{
+	random_device generator;
+	uniform_int_distribution<int> distribution(1, 10);
+	int diceRoll = distribution(generator);
+
+	return diceRoll;
+}
+
 // Function to determine colour
 string randColour()
 {
@@ -85,15 +112,22 @@ string randColour()
 }
 
 // Function to determine name
-string randName(void)
+string randName(char sex)
 {
-	string bunnyNames[] = { "Thumper", "Oreo", "Daisy", "Bella", "Charlie", "Lily", "Lola", "Oliver", "Jack", "Lucy", "Molly", "Peanut", "Coco", "Bailey", "Clover", "Pepper", "Bunbun", "Smokey", "Fluffy", "Gizmo", "Honey", "Willow", "Ginger", "Chloe", "Luna", "Snowball", "Cocoa", "Lucky", "Holly", "Jasper", "Buddy", "Cookie", "Hazel", "Peter", "Ruby", "Pumpkin", "Buster", "Max", "Nibbles", "Sophie", "Binky", "George", "Lilly", "Shadow", "Harvey", "Midnight", "Alice", "Flopsy", "Lulu" };
-
+	string bunnyFemNames[24] = { "Daisy", "Bella", "Lily", "Lola", "Lucy", "Molly", "Bailey", "Bunbun", "Fluffy", "Honey", "Willow", "Ginger", "Chloe", "Luna", "Snowball", "Cocoa", "Holly", "Cookie", "Ruby", "Pumpkin", "Sophie", "Lilly", "Alice", "Lulu" };
+	string bunnyMaleNames[24] = { "Thumper", "Oreo", "Charlie", "Oliver", "Jack", "Clover", "Smokey", "Gizmo", "Binky", "George", "Max", "Nibbles", "Harvey", "Buster", "Peter", "Jasper", "Buddy", "Lucky", "Shadow", "Flopsy", "Pepper", "Hazel", "Midnight", "Peanut" };
 	random_device generator;
-	uniform_int_distribution<int> distribution(0, 48);
+	uniform_int_distribution<int> distribution(0, 23);
 	int diceRoll = distribution(generator);
 
-	return bunnyNames[diceRoll];
+	if (sex == 'f')
+	{
+		return bunnyFemNames[diceRoll];
+	}
+	else if (sex == 'm')
+	{
+		return bunnyMaleNames[diceRoll];
+	}
 }
 
 // Funktion to determine crazyness
@@ -103,24 +137,147 @@ int randCrazyness()
 	uniform_int_distribution<int> distribution(1, 100);
 	int diceRoll = distribution(generator);
 
-	if (diceRoll == 1 || diceRoll == 2)
+	if (diceRoll <= 2)
 		return 1;
 	else 
 		return 0;
 }
 
 // Create Bunny
-void createBunny(int max)
+void createBunny(int max, char start)
 {
 	int n{};
 
 	for (n = 0; n < max; n++)
 	{
-		bunnyNumber[n].sex = randSex();
-		bunnyNumber[n].colour = randColour();
-		bunnyNumber[n].age = 1;
-		bunnyNumber[n].name = randName();
-		bunnyNumber[n].crazy = randCrazyness();
+		bunny* add = new bunny;
+		add->sex = randSex();
+		add->colour = randColour();
+		if (start == 'y')
+		{
+			add->age = randAge();
+		}
+		else if (start == 'n')
+		{
+			add->age = 0;
+		}
+		add->name = randName(add->sex); 	// Name depending on sex
+		add->crazy = randCrazyness();
+		addNode(add);
+	}
+	
+}
+
+// Add a Node to Bunny
+void addNode(bunny* add)
+{
+	if (listStart == 0)
+	{
+		listStart = add;
+		add->next = 0;
+	}
+	else
+	{
+		bunny* aidPointer = listStart;
+		while (aidPointer->next != 0)
+		{
+			aidPointer = aidPointer->next;
+		}
+		aidPointer->next = add;
+		add->next = 0;
+	}
+	//cout << add->name << "\n" << add->sex << "\n" << add->colour << "\n" << add->age << "\n" << add->crazy << "\n" << endl;
+
+}
+
+// output for the Bunny list
+void listOutput()
+{
+	bunny* aidPointer = listStart;
+	while (aidPointer != 0)
+	{
+		cout << aidPointer->name << "\n" << aidPointer->sex << "\n" << aidPointer->colour << "\n" << aidPointer->age << "\n" << aidPointer->crazy << "\n" << endl;
+		aidPointer = aidPointer->next;
+	}
+	
+}
+
+// breeding mechanism
+// "as long as there is a male bunny age 2 or up, every female bunny age 2 or up will create one new bunny age 1. Crazy bunnies will not breed!"
+int bunnyCounting(void)
+{
+	// is there a male age 2 or up?
+	char sexTest{};
+	int ageTest{};
+	int crazyTest{};
+	bunny* aidPointer = listStart;
+	while ((sexTest != 'm' && aidPointer != 0) || (ageTest < 2 && aidPointer != 0) || (crazyTest == 1 && aidPointer != 0))
+	{
+		sexTest = aidPointer->sex;
+		ageTest = aidPointer->age;
+		crazyTest = aidPointer->crazy;
+		aidPointer = aidPointer->next;
+	}
+	if (sexTest != 'm' || ageTest < 2 || crazyTest == 1)
+	{
+		return 0;
+	}
+	
+	// since there is a not-crazy male bunny age 2 or up available, lets check for at least 1 female bunny
+	sexTest = 0;
+	ageTest = 0;
+	crazyTest = 0;
+	aidPointer = listStart;
+	while ((sexTest != 'f' && aidPointer != 0) || (ageTest < 2 && aidPointer != 0) || (crazyTest == 1 && aidPointer != 0))
+	{
+		sexTest = aidPointer->sex;
+		ageTest = aidPointer->age;
+		crazyTest = aidPointer->crazy;
+		aidPointer = aidPointer->next;
+	}
+	if (sexTest != 'f' || ageTest < 2 || crazyTest == 1)
+	{
+		return 0;
 	}
 
+	// counting female bunnies
+	sexTest = 0;
+	ageTest = 0;
+	crazyTest = 0;
+	int femaleCounter{};
+	aidPointer = listStart;
+	while (aidPointer != 0)
+	{
+		sexTest = aidPointer->sex;
+		ageTest = aidPointer->age;
+		crazyTest = aidPointer->crazy;
+		aidPointer = aidPointer->next;
+		if (sexTest == 'f' && ageTest >= 2 && crazyTest == 0)
+		{
+			femaleCounter++;
+		}
+	}
+
+	return femaleCounter;
+}
+
+// lets bunnies age one year each cycle, kills them when older than 10yrs
+void bunnyAging(void)
+{
+	bunny* aidPointer = listStart;
+	while (aidPointer != 0)
+	{
+		aidPointer->age++;
+		
+		if (aidPointer->age > 10)
+		{
+			//bunny* reset = aidPointer;
+			aidPointer = aidPointer->next;
+			//reset* = 0;
+		}
+		else
+		{
+			aidPointer = aidPointer->next;
+		}
+	}
 }
