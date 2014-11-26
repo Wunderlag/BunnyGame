@@ -44,6 +44,8 @@ void listOutput(void);
 int bunnyCounting(void);
 // lets bunnies age one year each cycle, kills them when older than 10yrs
 void bunnyAging(void);
+// every crazy bunny makes another bunny crazy each year
+void makeBunnyCrazy(void);
 
 int main()
 {
@@ -270,7 +272,7 @@ void bunnyAging(void)
 	{
 		nPtr->age++;
 		
-		if (nPtr->age > 10)
+		if ((nPtr->age > 10 && nPtr->crazy == 0) || (nPtr->age > 50 && nPtr->crazy == 1))
 		{
 			if (nPtr == listStart)
 			{
@@ -294,3 +296,41 @@ void bunnyAging(void)
 		}
 	}
 }
+
+// every crazy bunny makes another bunny crazy each year
+/*
+void makeBunnyCrazy(void)
+{
+	int crazyCounter{};
+	bunny* nPtr = listStart;
+	while (nPtr != 0)
+	{
+		if (nPtr->crazy == 1)
+		{
+			crazyCounter++;
+			nPtr = nPtr->next;
+		}
+		else
+		{
+			nPtr = nPtr->next;
+		}
+	}
+
+
+}
+*/
+
+/*
+int compare(const void* a, const void* b)
+{
+	return (*(int*)a - *(int*)b);
+}
+
+// Bunnies get sorted by Age
+void bunnieSortingByAge()
+{
+	int n;
+	bunny* aPtr = listStart;
+	qsort(aPtr, )
+}
+*/
