@@ -178,12 +178,12 @@ void addNode(bunny* add)
 	}
 	else
 	{
-		bunny* aidPointer = listStart;
-		while (aidPointer->next != 0)
+		bunny* nPtr = listStart;
+		while (nPtr->next != 0)
 		{
-			aidPointer = aidPointer->next;
+			nPtr = nPtr->next;
 		}
-		aidPointer->next = add;
+		nPtr->next = add;
 		add->next = 0;
 	}
 	//cout << add->name << "\n" << add->sex << "\n" << add->colour << "\n" << add->age << "\n" << add->crazy << "\n" << endl;
@@ -193,11 +193,11 @@ void addNode(bunny* add)
 // output for the Bunny list
 void listOutput()
 {
-	bunny* aidPointer = listStart;
-	while (aidPointer != 0)
+	bunny* nPtr = listStart;
+	while (nPtr != 0)
 	{
-		cout << aidPointer->name << "\n" << aidPointer->sex << "\n" << aidPointer->colour << "\n" << aidPointer->age << "\n" << aidPointer->crazy << "\n" << endl;
-		aidPointer = aidPointer->next;
+		cout << nPtr->name << "\n" << nPtr->sex << "\n" << nPtr->colour << "\n" << nPtr->age << "\n" << nPtr->crazy << "\n" << endl;
+		nPtr = nPtr->next;
 	}
 	
 }
@@ -210,13 +210,13 @@ int bunnyCounting(void)
 	char sexTest{};
 	int ageTest{};
 	int crazyTest{};
-	bunny* aidPointer = listStart;
-	while ((sexTest != 'm' && aidPointer != 0) || (ageTest < 2 && aidPointer != 0) || (crazyTest == 1 && aidPointer != 0))
+	bunny* nPtr = listStart;
+	while ((sexTest != 'm' && nPtr != 0) || (ageTest < 2 && nPtr != 0) || (crazyTest == 1 && nPtr != 0))
 	{
-		sexTest = aidPointer->sex;
-		ageTest = aidPointer->age;
-		crazyTest = aidPointer->crazy;
-		aidPointer = aidPointer->next;
+		sexTest = nPtr->sex;
+		ageTest = nPtr->age;
+		crazyTest = nPtr->crazy;
+		nPtr = nPtr->next;
 	}
 	if (sexTest != 'm' || ageTest < 2 || crazyTest == 1)
 	{
@@ -227,13 +227,13 @@ int bunnyCounting(void)
 	sexTest = 0;
 	ageTest = 0;
 	crazyTest = 0;
-	aidPointer = listStart;
-	while ((sexTest != 'f' && aidPointer != 0) || (ageTest < 2 && aidPointer != 0) || (crazyTest == 1 && aidPointer != 0))
+	nPtr = listStart;
+	while ((sexTest != 'f' && nPtr != 0) || (ageTest < 2 && nPtr != 0) || (crazyTest == 1 && nPtr != 0))
 	{
-		sexTest = aidPointer->sex;
-		ageTest = aidPointer->age;
-		crazyTest = aidPointer->crazy;
-		aidPointer = aidPointer->next;
+		sexTest = nPtr->sex;
+		ageTest = nPtr->age;
+		crazyTest = nPtr->crazy;
+		nPtr = nPtr->next;
 	}
 	if (sexTest != 'f' || ageTest < 2 || crazyTest == 1)
 	{
@@ -245,13 +245,13 @@ int bunnyCounting(void)
 	ageTest = 0;
 	crazyTest = 0;
 	int femaleCounter{};
-	aidPointer = listStart;
-	while (aidPointer != 0)
+	nPtr = listStart;
+	while (nPtr != 0)
 	{
-		sexTest = aidPointer->sex;
-		ageTest = aidPointer->age;
-		crazyTest = aidPointer->crazy;
-		aidPointer = aidPointer->next;
+		sexTest = nPtr->sex;
+		ageTest = nPtr->age;
+		crazyTest = nPtr->crazy;
+		nPtr = nPtr->next;
 		if (sexTest == 'f' && ageTest >= 2 && crazyTest == 0)
 		{
 			femaleCounter++;
@@ -264,20 +264,20 @@ int bunnyCounting(void)
 // lets bunnies age one year each cycle, kills them when older than 10yrs
 void bunnyAging(void)
 {
-	bunny* aidPointer = listStart;
-	while (aidPointer != 0)
+	bunny* nPtr = listStart;
+	while (nPtr != 0)
 	{
-		aidPointer->age++;
+		nPtr->age++;
 		
-		if (aidPointer->age > 10)
+		if (nPtr->age > 10)
 		{
-			//bunny* reset = aidPointer;
-			aidPointer = aidPointer->next;
+			//bunny* reset = nPtr;
+			nPtr = nPtr->next;
 			//reset* = 0;
 		}
 		else
 		{
-			aidPointer = aidPointer->next;
+			nPtr = nPtr->next;
 		}
 	}
 }
