@@ -67,7 +67,7 @@ int main()
 
 
 	// Test output
-	listOutput();
+	//listOutput();
 
 	// cout << "\nErgebnis:\n" << bunnyCounting() << endl;
 
@@ -265,18 +265,31 @@ int bunnyCounting(void)
 void bunnyAging(void)
 {
 	bunny* nPtr = listStart;
+	bunny* resetPtr = listStart;
 	while (nPtr != 0)
 	{
 		nPtr->age++;
 		
 		if (nPtr->age > 10)
 		{
-			//bunny* reset = nPtr;
-			nPtr = nPtr->next;
-			//reset* = 0;
+			if (nPtr == listStart)
+			{
+				resetPtr = listStart;
+				listStart = nPtr->next;
+				nPtr = nPtr->next;
+				delete resetPtr;
+				resetPtr = listStart;
+			}
+			else
+			{
+				nPtr = nPtr->next;
+				delete resetPtr->next;
+				resetPtr->next = nPtr;
+			}
 		}
 		else
 		{
+			resetPtr = nPtr;
 			nPtr = nPtr->next;
 		}
 	}
