@@ -59,7 +59,11 @@ int main()
 		bunnyAging();
 		createBunny(bunnyCounting(), 'n');
 		listOutput();
+		cout << "\nBirths: " << bunnyCounting() << endl;
+		makeBunnyCrazy();
+
 		system("PAUSE");
+
 
 	}
 
@@ -298,10 +302,10 @@ void bunnyAging(void)
 }
 
 // every crazy bunny makes another bunny crazy each year
-/*
 void makeBunnyCrazy(void)
 {
 	int crazyCounter{};
+	int bunnyAmount{};
 	bunny* nPtr = listStart;
 	while (nPtr != 0)
 	{
@@ -314,11 +318,40 @@ void makeBunnyCrazy(void)
 		{
 			nPtr = nPtr->next;
 		}
+		bunnyAmount++;
 	}
 
+	cout << "All Bunnies: " << bunnyAmount << endl;
+
+	int n{};
+	while (n < crazyCounter)
+	{
+		bunny* nPtr = listStart;
+		int crazy = 1;
+		while (crazy == 1)
+		{
+			random_device generator;
+			uniform_int_distribution<int> distribution(0, bunnyAmount - 1);
+			int diceRoll = distribution(generator);
+
+			for (size_t i = 0; i < diceRoll; i++)
+				nPtr = nPtr->next;
+			if (nPtr->crazy == 1)
+			{
+				nPtr = listStart;
+				continue;
+			}
+			else
+				break;
+		}
+		nPtr->crazy = 1;
+		n++;
+	}
+	cout << "Crazy: " << crazyCounter + n << endl;
 
 }
-*/
+
+
 
 /*
 int compare(const void* a, const void* b)
